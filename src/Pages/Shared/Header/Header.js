@@ -9,19 +9,27 @@ import { FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 import LeftSideNav from "../LeftSideNav/LeftSideNav";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 
 const Header = () => {
-  const {user, logOut} = useContext(AuthContext)
-  const handleLogOut = () =>{
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogOut = () => {
     logOut()
-    .then(() =>{})
-    .catch(error => console.error(error))
-  }
+      .then(() => {})
+      .catch((error) => console.error(error));
+  };
   return (
-    <Navbar className="mb-4" collapseOnSelect expand="lg" bg="light" variant="dark">
+    <Navbar
+      className="mb-4"
+      collapseOnSelect
+      expand="lg"
+      bg="light"
+      variant="dark"
+    >
       <Container>
-        <Navbar.Brand><Link to="/">Dragon News</Link></Navbar.Brand>
+        <Navbar.Brand>
+          <Link to="/">Dragon News</Link>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
@@ -40,37 +48,39 @@ const Header = () => {
             </NavDropdown>
           </Nav>
           <Nav>
-          <>
-            {
-              user?.uid ?
-              <>
-              <span>{user?.displayName}</span>
-              <Button variant="outline-danger" onClick={handleLogOut}>Logout</Button>
-              </>
-              :
-              <>
-              <Link to ="/login">Login</Link>
-              <Link to ="/register">Register</Link>
-              </>
-            }
-            
+            <>
+              {user?.uid ? (
+                <>
+                  <span>{user?.displayName}</span>
+                  <Button variant="outline-danger" onClick={handleLogOut}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">Register</Link>
+                </>
+              )}
             </>
-          {user?.photoURL ?
-              <Image style={{height: "30px"}}
-               roundedCircle 
-               src={user?.photoURL}>
-
-               </Image>
-              : <FaUserAlt></FaUserAlt>
-          }
+            <Link to="/profile">
+              {user?.photoURL ? 
+                <Image
+                  style={{ height: "30px" }}
+                  roundedCircle
+                  src={user?.photoURL}
+                ></Image>
+              : 
+                <FaUserAlt></FaUserAlt>
+              }
+            </Link>
           </Nav>
           <div className="d-lg-none">
-        <LeftSideNav></LeftSideNav>
-    </div>
+            <LeftSideNav></LeftSideNav>
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    
   );
 };
 
