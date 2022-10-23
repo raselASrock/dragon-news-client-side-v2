@@ -40,7 +40,7 @@ const Header = () => {
             </NavDropdown>
           </Nav>
           <Nav>
-          <Nav.Link href="">
+          <>
             {
               user?.uid ?
               <>
@@ -54,7 +54,7 @@ const Header = () => {
               </>
             }
             
-            </Nav.Link>
+            </>
           {user?.photoURL ?
               <Image style={{height: "30px"}}
                roundedCircle 

@@ -47,8 +47,10 @@ const createUser = (email, password) =>{
     useEffect( () =>{
         const unsubscribe = onAuthStateChanged(auth, (currentUser) =>{
             console.log("User inside state ", currentUser);
-            setUser(currentUser)
-            setLoading(true)
+            if(currentUser === null || currentUser.emailVerified){
+                setUser(currentUser)
+            }
+            setLoading(false)
         });
         return () =>{
             unsubscribe();
@@ -57,7 +59,8 @@ const createUser = (email, password) =>{
 
     const authInfo = {
         user,
-        loading, 
+        loading,
+        setLoading,
         providerLogin, 
         logOut, 
         createUser,
