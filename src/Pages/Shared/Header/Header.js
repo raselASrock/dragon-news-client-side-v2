@@ -18,7 +18,6 @@ const Header = () => {
     .then(() =>{})
     .catch(error => console.error(error))
   }
-  console.log(user);
   return (
     <Navbar className="mb-4" collapseOnSelect expand="lg" bg="light" variant="dark">
       <Container>

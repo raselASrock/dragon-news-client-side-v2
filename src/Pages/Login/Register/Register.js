@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 
 const Register = () => {
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const [accepted, setAccepted] = useState(false)
 
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,14 +25,33 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        setError("")
+        setError("");
         form.reset();
+        handleUpdateUserProfile(name, photoURL)
       })
       .catch((error) => {
-        console.error(error)
-        setError(error.message)
+        console.error(error);
+        setError(error.message);
       });
   };
+
+
+
+  const handleUpdateUserProfile = (name, photoURL) =>{
+    const profile = {
+      displayName: name,
+      photoURL: photoURL,
+    }
+    updateUserProfile(profile)
+    .then(() =>{})
+    .catch(error => console.error(error))
+  }
+
+  const handleAccepted = (event) =>{
+    setAccepted(event.target.checked);
+  }
+
+
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -62,13 +83,17 @@ const Register = () => {
           placeholder="Password"
           required
         />
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check 
+          type="checkbox" 
+          onClick={handleAccepted}
+          label={<>Accept <Link to="/terms">Terms & Conditions</Link></>} />
+        </Form.Group>
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" disabled={!accepted}>
         Register
       </Button>
-      <Form.Text className="text-danger">
-        {error}
-      </Form.Text>
+      <Form.Text className="text-danger">{error}</Form.Text>
     </Form>
   );
 };
